@@ -625,10 +625,149 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          {/* TELEMETRÍA DE SEGURIDAD DEFENSIVA DIRECTAMENTE DEBAJO DEL RADAR Y LAS ELECCIONES */}
+          <div id="telemetria" className="mt-10 pt-8 border-t border-stone-800/80">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-lime-400">
+                  Panel de Conmutación en Tiempo Real
+                </div>
+                <h3 className="text-lg sm:text-xl font-black text-stone-100 uppercase tracking-tight">
+                  Telemetría de Seguridad Defensiva
+                </h3>
+              </div>
+              <p className="text-xs text-stone-400 font-sans max-w-xl">
+                Activa o desactiva defensas institucionales y observa cómo se recalcula al instante la deformación de la Tríada CIA en el radar superior.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+              {/* Switch 1: MFA */}
+              <div
+                onClick={() => toggleDefense('mfaHardware')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.mfaHardware
+                    ? 'bg-amber-950/20 border-amber-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-amber-400 uppercase">[C] MFA Hardware</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.mfaHardware ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.mfaHardware ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Obliga a validación física en tokens FIDO2. Neutraliza phishing masivo.
+                </p>
+              </div>
+
+              {/* Switch 2: Encryption */}
+              <div
+                onClick={() => toggleDefense('aesEncryption')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.aesEncryption
+                    ? 'bg-amber-950/20 border-amber-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-amber-400 uppercase">[C] Cifrado AES-256</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.aesEncryption ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.aesEncryption ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Almacenamiento cifrado en reposo para discos SAN, bases de datos y respaldos.
+                </p>
+              </div>
+
+              {/* Switch 3: Immutable Hashes */}
+              <div
+                onClick={() => toggleDefense('immutableHashes')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.immutableHashes
+                    ? 'bg-lime-950/20 border-lime-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-lime-400 uppercase">[I] Hashes SHA-256</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.immutableHashes ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.immutableHashes ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Comprobación criptográfica de integridad en binarios y transferencias de red.
+                </p>
+              </div>
+
+              {/* Switch 4: Audit Logs */}
+              <div
+                onClick={() => toggleDefense('auditLogs')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.auditLogs
+                    ? 'bg-lime-950/20 border-lime-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-lime-400 uppercase">[I] Logs WORM</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.auditLogs ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.auditLogs ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Bitácoras inmutables de escritura única para impedir borrado de huellas.
+                </p>
+              </div>
+
+              {/* Switch 5: HA Cluster */}
+              <div
+                onClick={() => toggleDefense('haCluster')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.haCluster
+                    ? 'bg-orange-950/20 border-orange-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-orange-500 uppercase">[A] Clúster HA</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.haCluster ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.haCluster ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Conmutación multi-zona por error inmediata en menos de 5s ante caídas de hardware.
+                </p>
+              </div>
+
+              {/* Switch 6: DDoS Scrubbing */}
+              <div
+                onClick={() => toggleDefense('ddosScrubbing')}
+                className={`cursor-pointer p-3.5 rounded-xl border transition-all ${
+                  defenseToggles.ddosScrubbing
+                    ? 'bg-orange-950/20 border-orange-500/60'
+                    : 'bg-stone-900/40 border-stone-800 opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-orange-500 uppercase">[A] Filtro Anti-DDoS</span>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${defenseToggles.ddosScrubbing ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
+                    {defenseToggles.ddosScrubbing ? 'ACTIVO' : 'OFF'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-stone-400 font-sans leading-snug">
+                  Mitigación Anycast en borde para absorber inundaciones volumétricas TCP/UDP.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {}
+      {/* SECCIÓN PILARES FUNDAMENTALES */}
       <section id="pilares" className="py-14 w-full px-4 sm:px-8 lg:px-12 xl:px-16 z-10 relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
@@ -1077,144 +1216,7 @@ export default function App() {
         </div>
       </section>
 
-      {}
-      <section id="telemetria" className="py-14 w-full px-4 sm:px-8 lg:px-12 xl:px-16">
-        <div className="mb-8">
-          <div className="text-xs font-bold uppercase tracking-widest text-lime-400 mb-1">
-            Panel de Conmutación
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-stone-100 uppercase tracking-tight">
-            Telemetría de Seguridad Defensiva
-          </h2>
-          <p className="text-xs sm:text-sm text-stone-400 font-sans mt-1">
-            Activa o desactiva defensas institucionales y observa cómo se recalcula al instante la robustez de la Tríada CIA en el radar superior.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-          {/* Switch 1: MFA */}
-          <div
-            onClick={() => toggleDefense('mfaHardware')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.mfaHardware
-                ? 'bg-amber-950/20 border-amber-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-amber-400 uppercase">[C] MFA Hardware</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.mfaHardware ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.mfaHardware ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Obliga a validación física en tokens criptográficos. Previene el 99% de robos de credenciales.
-            </p>
-          </div>
-
-          {/* Switch 2: Encryption */}
-          <div
-            onClick={() => toggleDefense('aesEncryption')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.aesEncryption
-                ? 'bg-amber-950/20 border-amber-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-amber-400 uppercase">[C] Cifrado AES-256</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.aesEncryption ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.aesEncryption ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Almacenamiento cifrado en reposo y respaldos contra robo físico o exfiltración masiva.
-            </p>
-          </div>
-
-          {/* Switch 3: Immutable Hashes */}
-          <div
-            onClick={() => toggleDefense('immutableHashes')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.immutableHashes
-                ? 'bg-lime-950/20 border-lime-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-lime-400 uppercase">[I] Hashes SHA-256</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.immutableHashes ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.immutableHashes ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Comprobación continua de integridad de archivos y transacciones en bases de datos.
-            </p>
-          </div>
-
-          {/* Switch 4: Audit Logs */}
-          <div
-            onClick={() => toggleDefense('auditLogs')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.auditLogs
-                ? 'bg-lime-950/20 border-lime-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-lime-400 uppercase">[I] Logs WORM</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.auditLogs ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.auditLogs ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Registro de escritura única inmutable por intrusos para asegurar trazabilidad pericial.
-            </p>
-          </div>
-
-          {/* Switch 5: HA Cluster */}
-          <div
-            onClick={() => toggleDefense('haCluster')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.haCluster
-                ? 'bg-orange-950/20 border-orange-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-orange-500 uppercase">[A] Clúster HA</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.haCluster ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.haCluster ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Conmutación automática de servidores en menos de 5s ante fallas de centros de datos.
-            </p>
-          </div>
-
-          {/* Switch 6: DDoS Scrubbing */}
-          <div
-            onClick={() => toggleDefense('ddosScrubbing')}
-            className={`cursor-pointer p-4 rounded-xl border transition-all ${
-              defenseToggles.ddosScrubbing
-                ? 'bg-orange-950/20 border-orange-500/60'
-                : 'bg-stone-900/40 border-stone-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-orange-500 uppercase">[A] Filtro Anti-DDoS</span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.ddosScrubbing ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.ddosScrubbing ? 'ACTIVO' : 'OFF'}
-              </span>
-            </div>
-            <p className="text-xs text-stone-400 font-sans">
-              Inspección en el borde de tráfico Anycast masivo para absorber avalanchas de botnets.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {}
+      {/* SECCIÓN EVALUACIÓN / EXAMEN INTERACTIVO */}
       <section id="evaluacion" className="py-14 border-t border-stone-800 bg-stone-900/20">
         <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="text-center mb-8">
