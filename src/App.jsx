@@ -238,9 +238,10 @@ export default function App() {
     auditLogs: true
   });
 
-  // Quiz state
+  // Step-by-step quiz state
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({});
-  const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   // Selected pillar object
   const currentPillar = PILLARS_DATA[selectedPillarKey];
@@ -327,14 +328,23 @@ export default function App() {
     return hits;
   }, [quizAnswers]);
 
-  const handleSelectQuizOption = (qIdx, optIdx) => {
-    if (isQuizSubmitted) return;
-    setQuizAnswers((prev) => ({ ...prev, [qIdx]: optIdx }));
+  const handleSelectQuizOption = (optIdx) => {
+    if (quizAnswers[currentQuestionIndex] !== undefined) return;
+    setQuizAnswers((prev) => ({ ...prev, [currentQuestionIndex]: optIdx }));
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < QUIZ_BANK.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setIsQuizCompleted(true);
+    }
   };
 
   const resetQuiz = () => {
     setQuizAnswers({});
-    setIsQuizSubmitted(false);
+    setCurrentQuestionIndex(0);
+    setIsQuizCompleted(false);
   };
 
   return (
@@ -1204,134 +1214,250 @@ export default function App() {
         </div>
       </section>
 
-      {}
+      {/* EVALUATION SECTION (STEP-BY-STEP QUIZ) */}
       <section id="evaluacion" className="py-16 border-t border-stone-800 bg-stone-900/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-stone-900 border border-stone-800 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Validación de Conocimientos
             </div>
-            <h2 className="text-3xl font-black text-stone-100 uppercase tracking-tight">
-              Examen de Evaluación CIA
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-100 uppercase tracking-tight">
+              Examen Interactivo CIA
             </h2>
             <p className="text-xs sm:text-sm text-stone-400 font-sans mt-1">
-              Pon a prueba tus criterios para calificar incidentes y asignar controles pertinentes.
+              Responde cada pregunta para avanzar de nivel y obtener tu diagnóstico de ciberdefensa.
             </p>
           </div>
 
-          <div className="space-y-6">
-            {QUIZ_BANK.map((item, qIndex) => {
-              const selectedOption = quizAnswers[qIndex];
-              const isSelected = selectedOption !== undefined;
-
-              return (
-                <div
-                  key={qIndex}
-                  className="p-6 rounded-xl border border-stone-800 bg-stone-900/50 space-y-4"
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-stone-800 text-amber-400">
-                      0{qIndex + 1}
+          {!isQuizCompleted ? (
+            /* ACTIVE QUESTION VIEW */
+            <div className="border border-stone-800 rounded-2xl bg-stone-950/90 backdrop-blur-sm p-6 sm:p-8 shadow-xl space-y-6">
+              {/* Stepper Progress Header */}
+              <div className="space-y-2 border-b border-stone-800 pb-4">
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold">
+                      Pregunta {currentQuestionIndex + 1} de {QUIZ_BANK.length}
                     </span>
-                    <h3 className="text-sm sm:text-base font-bold text-stone-100 leading-snug">
-                      {item.question}
-                    </h3>
+                    <span className="text-stone-500 hidden sm:inline">• Simulación en vivo</span>
                   </div>
-
-                  <div className="space-y-2 pt-1 font-sans">
-                    {item.options.map((opt, optIndex) => {
-                      const isOptionChosen = selectedOption === optIndex;
-                      let optionStyle =
-                        'border-stone-800 bg-stone-950/70 text-stone-300 hover:border-stone-700';
-
-                      if (isQuizSubmitted) {
-                        if (optIndex === item.correct) {
-                          optionStyle =
-                            'border-lime-500 bg-lime-950/30 text-lime-200 font-medium';
-                        } else if (isOptionChosen) {
-                          optionStyle =
-                            'border-rose-500 bg-rose-950/30 text-rose-200';
-                        }
-                      } else if (isOptionChosen) {
-                        optionStyle =
-                          'border-amber-500 bg-amber-950/30 text-amber-200';
-                      }
-
-                      return (
-                        <button
-                          key={optIndex}
-                          onClick={() => handleSelectQuizOption(qIndex, optIndex)}
-                          className={`w-full text-left p-3 rounded-lg border text-xs sm:text-sm transition flex items-center justify-between ${optionStyle}`}
-                        >
-                          <span>{opt}</span>
-                          {isQuizSubmitted && optIndex === item.correct && (
-                            <Check className="w-4 h-4 text-lime-400 shrink-0 ml-2" />
-                          )}
-                          {isQuizSubmitted && isOptionChosen && optIndex !== item.correct && (
-                            <X className="w-4 h-4 text-rose-400 shrink-0 ml-2" />
-                          )}
-                        </button>
-                      );
-                    })}
+                  <div className="text-stone-400 font-mono">
+                    Progreso: {Math.round(((currentQuestionIndex + (quizAnswers[currentQuestionIndex] !== undefined ? 1 : 0)) / QUIZ_BANK.length) * 100)}%
                   </div>
-
-                  {isQuizSubmitted && (
-                    <div className="p-3 rounded bg-stone-950 border border-stone-800 text-xs text-stone-400 font-sans">
-                      <strong className="text-stone-200 font-mono">Justificación Técnica: </strong>
-                      {item.justification}
-                    </div>
-                  )}
                 </div>
-              );
-            })}
 
-            {/* Quiz Submit / Reset controls */}
-            <div className="flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl border border-stone-800 bg-stone-950 gap-4">
-              <div>
-                {isQuizSubmitted ? (
-                  <div className="text-xs">
-                    <span className="text-stone-400">Resultado Oficial: </span>
-                    <strong
-                      className={`font-mono text-sm ${
-                        quizScore >= 3 ? 'text-lime-400' : 'text-amber-400'
-                      }`}
-                    >
-                      {quizScore} de {QUIZ_BANK.length} Aciertos (
-                      {Math.round((quizScore / QUIZ_BANK.length) * 100)}%)
-                    </strong>
-                  </div>
-                ) : (
-                  <div className="text-xs text-stone-400">
-                    Preguntas respondidas: {Object.keys(quizAnswers).length} de {QUIZ_BANK.length}
-                  </div>
-                )}
+                {/* Progress bar line */}
+                <div className="w-full h-1.5 rounded-full bg-stone-800 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-500 to-lime-400 transition-all duration-300"
+                    style={{
+                      width: `${((currentQuestionIndex + (quizAnswers[currentQuestionIndex] !== undefined ? 1 : 0)) / QUIZ_BANK.length) * 100}%`
+                    }}
+                  />
+                </div>
               </div>
 
-              <div className="flex gap-2 w-full sm:w-auto">
-                {!isQuizSubmitted ? (
-                  <button
-                    onClick={() => setIsQuizSubmitted(true)}
-                    disabled={Object.keys(quizAnswers).length === 0}
-                    className="w-full sm:w-auto px-6 py-2.5 rounded bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs uppercase tracking-wider transition disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    Calificar Examen
-                  </button>
-                ) : (
-                  <button
-                    onClick={resetQuiz}
-                    className="w-full sm:w-auto px-6 py-2.5 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" /> Reintentar
-                  </button>
-                )}
+              {/* Question Statement */}
+              <div className="space-y-2">
+                <h3 className="text-base sm:text-lg font-bold text-stone-100 leading-snug">
+                  {QUIZ_BANK[currentQuestionIndex].question}
+                </h3>
+              </div>
+
+              {/* Options List */}
+              <div className="space-y-3 font-sans">
+                {QUIZ_BANK[currentQuestionIndex].options.map((opt, optIdx) => {
+                  const isAnswered = quizAnswers[currentQuestionIndex] !== undefined;
+                  const isChosen = quizAnswers[currentQuestionIndex] === optIdx;
+                  const isCorrect = optIdx === QUIZ_BANK[currentQuestionIndex].correct;
+
+                  let btnStyle =
+                    'border-stone-800 bg-stone-900/60 text-stone-300 hover:border-amber-500/50 hover:bg-stone-900 cursor-pointer';
+
+                  if (isAnswered) {
+                    if (isCorrect) {
+                      btnStyle = 'border-lime-500 bg-lime-950/40 text-lime-200 font-medium cursor-default';
+                    } else if (isChosen) {
+                      btnStyle = 'border-rose-500 bg-rose-950/40 text-rose-200 cursor-default';
+                    } else {
+                      btnStyle = 'border-stone-800/60 bg-stone-950/40 text-stone-500 opacity-50 cursor-default';
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={optIdx}
+                      disabled={isAnswered}
+                      onClick={() => handleSelectQuizOption(optIdx)}
+                      className={`w-full text-left p-4 rounded-xl border text-xs sm:text-sm transition flex items-center justify-between gap-3 ${btnStyle}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`w-6 h-6 rounded flex items-center justify-center font-mono text-xs font-bold shrink-0 ${
+                            isAnswered && isCorrect
+                              ? 'bg-lime-500 text-stone-950'
+                              : isAnswered && isChosen
+                              ? 'bg-rose-500 text-stone-950'
+                              : 'bg-stone-800 text-stone-400'
+                          }`}
+                        >
+                          {String.fromCharCode(65 + optIdx)}
+                        </span>
+                        <span className="leading-snug">{opt}</span>
+                      </div>
+
+                      {isAnswered && isCorrect && (
+                        <Check className="w-5 h-5 text-lime-400 shrink-0 ml-2" />
+                      )}
+                      {isAnswered && isChosen && !isCorrect && (
+                        <X className="w-5 h-5 text-rose-400 shrink-0 ml-2" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Answer Feedback / Justification */}
+              {quizAnswers[currentQuestionIndex] !== undefined && (
+                <div
+                  className={`p-4 rounded-xl border text-xs font-sans space-y-1 transition animate-fadeIn ${
+                    quizAnswers[currentQuestionIndex] === QUIZ_BANK[currentQuestionIndex].correct
+                      ? 'border-lime-500/40 bg-lime-950/20 text-lime-200'
+                      : 'border-amber-500/40 bg-amber-950/20 text-amber-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5 font-mono font-bold text-xs uppercase">
+                    {quizAnswers[currentQuestionIndex] === QUIZ_BANK[currentQuestionIndex].correct ? (
+                      <>
+                        <Check className="w-4 h-4 text-lime-400" />
+                        <span className="text-lime-400">¡Respuesta Correcta!</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertTriangle className="w-4 h-4 text-amber-400" />
+                        <span className="text-amber-400">Respuesta Incorrecta</span>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-stone-300 leading-relaxed pt-1">
+                    <strong className="text-stone-100 font-mono">Justificación: </strong>
+                    {QUIZ_BANK[currentQuestionIndex].justification}
+                  </p>
+                </div>
+              )}
+
+              {/* Navigation Action Bar */}
+              <div className="pt-2 flex items-center justify-between border-t border-stone-800">
+                <span className="text-xs text-stone-500">
+                  {quizAnswers[currentQuestionIndex] === undefined
+                    ? 'Selecciona una respuesta para continuar'
+                    : 'Revisa la justificación y continúa'}
+                </span>
+
+                <button
+                  onClick={handleNextQuestion}
+                  disabled={quizAnswers[currentQuestionIndex] === undefined}
+                  className="px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs uppercase tracking-wider transition flex items-center gap-1.5 disabled:opacity-30 disabled:cursor-not-allowed shadow-md shadow-amber-500/10"
+                >
+                  {currentQuestionIndex < QUIZ_BANK.length - 1 ? (
+                    <>
+                      Siguiente Pregunta <ChevronRight className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <>
+                      Ver Resultados <Sparkles className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
               </div>
             </div>
-          </div>
+          ) : (
+            /* FINAL SCORECARD / DEBRIEF CARD */
+            <div className="border border-stone-800 rounded-2xl bg-stone-950/95 backdrop-blur-sm p-6 sm:p-8 shadow-2xl space-y-6 text-center">
+              <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center border border-amber-500/50 bg-amber-500/10 text-amber-400">
+                <Shield className="w-8 h-8" />
+              </div>
+
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-amber-400">
+                  Debriefing Operacional
+                </span>
+                <h3 className="text-2xl font-black text-stone-100 uppercase tracking-tight mt-1">
+                  Evaluación Concluida
+                </h3>
+              </div>
+
+              {/* Score Indicator */}
+              <div className="p-6 rounded-xl border border-stone-800 bg-stone-900/60 max-w-sm mx-auto space-y-2">
+                <div className="text-4xl font-black font-mono text-amber-400">
+                  {quizScore} / {QUIZ_BANK.length}
+                </div>
+                <div className="text-xs text-stone-400">
+                  Aciertos confirmados ({Math.round((quizScore / QUIZ_BANK.length) * 100)}%)
+                </div>
+                <div className="pt-2">
+                  <span
+                    className={`inline-block px-3 py-1 rounded text-xs font-bold uppercase ${
+                      quizScore === QUIZ_BANK.length
+                        ? 'bg-lime-950 text-lime-400 border border-lime-800'
+                        : quizScore >= 2
+                        ? 'bg-amber-950 text-amber-400 border border-amber-800'
+                        : 'bg-rose-950 text-rose-400 border border-rose-800'
+                    }`}
+                  >
+                    {quizScore === QUIZ_BANK.length
+                      ? 'Rango: Especialista en Tríada CIA'
+                      : quizScore >= 2
+                      ? 'Rango: Analista SOC Nivel 1'
+                      : 'Rango: Requiere Reentrenamiento'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Compact Review of Questions */}
+              <div className="space-y-2 text-left max-w-lg mx-auto font-sans">
+                {QUIZ_BANK.map((q, idx) => {
+                  const wasCorrect = quizAnswers[idx] === q.correct;
+                  return (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-lg border border-stone-800/80 bg-stone-900/40 flex items-center justify-between text-xs"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-stone-500 font-bold">0{idx + 1}.</span>
+                        <span className="text-stone-300 truncate max-w-[240px] sm:max-w-xs">
+                          {q.question}
+                        </span>
+                      </div>
+                      <span
+                        className={`font-mono text-[10px] px-2 py-0.5 rounded font-bold ${
+                          wasCorrect
+                            ? 'bg-lime-950/80 text-lime-400 border border-lime-800'
+                            : 'bg-rose-950/80 text-rose-400 border border-rose-800'
+                        }`}
+                      >
+                        {wasCorrect ? 'ACERTADA' : 'FALLADA'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="pt-4 flex justify-center">
+                <button
+                  onClick={resetQuiz}
+                  className="px-6 py-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 border border-stone-700 text-stone-200 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4 text-amber-400" /> Reintentar Evaluación
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
-      {}
+      {/* FOOTER */}
       <footer className="border-t border-stone-800/80 py-8 bg-stone-950 text-xs text-stone-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
