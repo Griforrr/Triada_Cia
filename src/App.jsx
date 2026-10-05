@@ -277,6 +277,33 @@ export default function App() {
     }, 0);
   }, [activeScenario, appliedMitigations]);
 
+  const radarCoordinates = useMemo(() => {
+    const cx = 150;
+    const cy = 135;
+    const maxR = 80;
+
+    const rC = (liveHealthMetrics.confidencialidad / 100) * maxR;
+    const rI = (liveHealthMetrics.integridad / 100) * maxR;
+    const rA = (liveHealthMetrics.disponibilidad / 100) * maxR;
+
+    // Vértice superior (Confidencialidad)
+    const xC = cx;
+    const yC = cy - rC;
+
+    // Vértice inferior izquierdo (Integridad, ángulo 210°)
+    const xI = cx - rI * 0.866;
+    const yI = cy + rI * 0.5;
+
+    // Vértice inferior derecho (Disponibilidad, ángulo 330°)
+    const xA = cx + rA * 0.866;
+    const yA = cy + rA * 0.5;
+
+    return {
+      points: `${xC.toFixed(1)},${yC.toFixed(1)} ${xI.toFixed(1)},${yI.toFixed(1)} ${xA.toFixed(1)},${yA.toFixed(1)}`,
+      xC, yC, xI, yI, xA, yA
+    };
+  }, [liveHealthMetrics]);
+
   const toggleMitigation = (id) => {
     setAppliedMitigations((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
@@ -408,70 +435,182 @@ export default function App() {
               </div>
             </div>
 
-            {/* Tactical Live Radar Card */}
+            {/* Tactical Live Radar Card - Geometric Triangle HUD */}
             <div className="lg:col-span-5">
-              <div className="border border-stone-800 rounded-xl bg-stone-900/70 p-6 shadow-2xl relative overflow-hidden backdrop-blur-sm">
-                <div className="flex items-center justify-between border-b border-stone-800 pb-3 mb-4">
+              <div className="border border-stone-800 rounded-xl bg-stone-900/70 p-5 shadow-2xl relative overflow-hidden backdrop-blur-sm">
+                <div className="flex items-center justify-between border-b border-stone-800 pb-3 mb-2">
                   <div className="flex items-center gap-2">
                     <Activity className="w-4 h-4 text-amber-400" />
                     <span className="text-xs font-bold uppercase tracking-wider text-stone-200">
-                      Estado Operacional de la Tríada
+                      Triángulo de Operaciones CIA
                     </span>
                   </div>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-400">
-                    REALTIME
+                    RADAR HUD
                   </span>
                 </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-amber-400 font-bold flex items-center gap-1.5">
-                        <Lock className="w-3.5 h-3.5" /> [C] CONFIDENCIALIDAD
-                      </span>
-                      <span className="font-mono text-stone-300">{liveHealthMetrics.confidencialidad}%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-stone-800 overflow-hidden">
-                      <div
-                        className="h-full bg-amber-400 transition-all duration-500"
-                        style={{ width: `${liveHealthMetrics.confidencialidad}%` }}
-                      />
-                    </div>
-                  </div>
+                {/* SVG Tactical Triangle */}
+                <div className="relative w-full max-w-[320px] mx-auto flex items-center justify-center py-2">
+                  <svg
+                    viewBox="0 0 300 270"
+                    className="w-full h-auto drop-shadow-[0_0_15px_rgba(245,158,11,0.1)]"
+                  >
+                    <defs>
+                      {/* Gradient for polygon area */}
+                      <linearGradient id="ciaAreaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.35" />
+                        <stop offset="50%" stopColor="#a3e635" stopOpacity="0.30" />
+                        <stop offset="100%" stopColor="#f97316" stopOpacity="0.35" />
+                      </linearGradient>
 
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-lime-400 font-bold flex items-center gap-1.5">
-                        <FileCheck className="w-3.5 h-3.5" /> [I] INTEGRIDAD
-                      </span>
-                      <span className="font-mono text-stone-300">{liveHealthMetrics.integridad}%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-stone-800 overflow-hidden">
-                      <div
-                        className="h-full bg-lime-400 transition-all duration-500"
-                        style={{ width: `${liveHealthMetrics.integridad}%` }}
-                      />
-                    </div>
-                  </div>
+                      {/* Radial center glow */}
+                      <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.15" />
+                        <stop offset="100%" stopColor="#0c0a09" stopOpacity="0" />
+                      </radialGradient>
+                    </defs>
 
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-orange-500 font-bold flex items-center gap-1.5">
-                        <Server className="w-3.5 h-3.5" /> [A] DISPONIBILIDAD
-                      </span>
-                      <span className="font-mono text-stone-300">{liveHealthMetrics.disponibilidad}%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-stone-800 overflow-hidden">
-                      <div
-                        className="h-full bg-orange-500 transition-all duration-500"
-                        style={{ width: `${liveHealthMetrics.disponibilidad}%` }}
+                    {/* Concentric Guide Triangles (25%, 50%, 75%, 100%) */}
+                    {[0.25, 0.5, 0.75, 1.0].map((level, idx) => {
+                      const r = 80 * level;
+                      const p1 = `150,${(135 - r).toFixed(1)}`;
+                      const p2 = `${(150 - r * 0.866).toFixed(1)},${(135 + r * 0.5).toFixed(1)}`;
+                      const p3 = `${(150 + r * 0.866).toFixed(1)},${(135 + r * 0.5).toFixed(1)}`;
+                      return (
+                        <polygon
+                          key={idx}
+                          points={`${p1} ${p2} ${p3}`}
+                          fill={level === 1.0 ? "url(#centerGlow)" : "none"}
+                          stroke="#44403c"
+                          strokeWidth={level === 1.0 ? "1.5" : "1"}
+                          strokeDasharray={level === 1.0 ? "none" : "3,3"}
+                          opacity={level === 1.0 ? "0.8" : "0.5"}
+                        />
+                      );
+                    })}
+
+                    {/* Axis lines from center to vertices */}
+                    <line x1="150" y1="135" x2="150" y2="55" stroke="#57534e" strokeWidth="1" strokeDasharray="2,2" />
+                    <line x1="150" y1="135" x2="80.7" y2="175" stroke="#57534e" strokeWidth="1" strokeDasharray="2,2" />
+                    <line x1="150" y1="135" x2="219.3" y2="175" stroke="#57534e" strokeWidth="1" strokeDasharray="2,2" />
+
+                    {/* Dynamic Real-time Area Polygon */}
+                    <polygon
+                      points={radarCoordinates.points}
+                      fill="url(#ciaAreaGrad)"
+                      stroke="#f59e0b"
+                      strokeWidth="2.5"
+                      className="transition-all duration-500 ease-out"
+                    />
+
+                    {/* Internal Core Node */}
+                    <circle cx="150" cy="135" r="3" fill="#78716c" />
+
+                    {/* Interactive Vertex Nodes */}
+                    {/* [C] Confidencialidad Node (Top) */}
+                    <g
+                      className="cursor-pointer group"
+                      onClick={() => setSelectedPillarKey('confidencialidad')}
+                    >
+                      <circle
+                        cx="150"
+                        cy="55"
+                        r="14"
+                        fill="#1c1917"
+                        stroke="#fbbf24"
+                        strokeWidth="2"
+                        className="group-hover:fill-amber-950/80 transition"
                       />
-                    </div>
-                  </div>
+                      <circle cx="150" cy="55" r="4" fill="#fbbf24" />
+                      <text x="150" y="32" textAnchor="middle" fill="#fbbf24" fontSize="10" fontWeight="bold" fontFamily="monospace">
+                        [C] {liveHealthMetrics.confidencialidad}%
+                      </text>
+                    </g>
+
+                    {/* [I] Integridad Node (Bottom-Left) */}
+                    <g
+                      className="cursor-pointer group"
+                      onClick={() => setSelectedPillarKey('integridad')}
+                    >
+                      <circle
+                        cx="80.7"
+                        cy="175"
+                        r="14"
+                        fill="#1c1917"
+                        stroke="#a3e635"
+                        strokeWidth="2"
+                        className="group-hover:fill-lime-950/80 transition"
+                      />
+                      <circle cx="80.7" cy="175" r="4" fill="#a3e635" />
+                      <text x="65" y="202" textAnchor="middle" fill="#a3e635" fontSize="10" fontWeight="bold" fontFamily="monospace">
+                        [I] {liveHealthMetrics.integridad}%
+                      </text>
+                    </g>
+
+                    {/* [A] Disponibilidad Node (Bottom-Right) */}
+                    <g
+                      className="cursor-pointer group"
+                      onClick={() => setSelectedPillarKey('disponibilidad')}
+                    >
+                      <circle
+                        cx="219.3"
+                        cy="175"
+                        r="14"
+                        fill="#1c1917"
+                        stroke="#f97316"
+                        strokeWidth="2"
+                        className="group-hover:fill-orange-950/80 transition"
+                      />
+                      <circle cx="219.3" cy="175" r="4" fill="#f97316" />
+                      <text x="235" y="202" textAnchor="middle" fill="#f97316" fontSize="10" fontWeight="bold" fontFamily="monospace">
+                        [A] {liveHealthMetrics.disponibilidad}%
+                      </text>
+                    </g>
+                  </svg>
                 </div>
 
-                <p className="mt-4 text-[11px] text-stone-400 font-sans border-t border-stone-800/80 pt-3">
-                  *Ajusta los interruptores en la sección de <strong className="text-stone-200">Telemetría</strong> para simular el fortalecimiento de controles.
+                {/* Compact Tactical Readouts */}
+                <div className="grid grid-cols-3 gap-2 pt-2 border-t border-stone-800">
+                  <button
+                    onClick={() => setSelectedPillarKey('confidencialidad')}
+                    className="p-2 rounded bg-stone-950/60 border border-stone-800 hover:border-amber-500/50 text-left transition"
+                  >
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400">
+                      <Lock className="w-3 h-3" /> [C]
+                    </div>
+                    <div className="text-xs font-mono font-bold text-stone-200 mt-0.5">
+                      {liveHealthMetrics.confidencialidad}%
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setSelectedPillarKey('integridad')}
+                    className="p-2 rounded bg-stone-950/60 border border-stone-800 hover:border-lime-500/50 text-left transition"
+                  >
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-lime-400">
+                      <FileCheck className="w-3 h-3" /> [I]
+                    </div>
+                    <div className="text-xs font-mono font-bold text-stone-200 mt-0.5">
+                      {liveHealthMetrics.integridad}%
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => setSelectedPillarKey('disponibilidad')}
+                    className="p-2 rounded bg-stone-950/60 border border-stone-800 hover:border-orange-500/50 text-left transition"
+                  >
+                    <div className="flex items-center gap-1 text-[11px] font-bold text-orange-500">
+                      <Server className="w-3 h-3" /> [A]
+                    </div>
+                    <div className="text-xs font-mono font-bold text-stone-200 mt-0.5">
+                      {liveHealthMetrics.disponibilidad}%
+                    </div>
+                  </button>
+                </div>
+
+                <p className="mt-3 text-[10px] text-stone-400 font-sans text-center">
+                  *Haz clic en los nodos o ajusta la <strong className="text-stone-300">Telemetría</strong> para deformar el radar.
                 </p>
               </div>
             </div>
