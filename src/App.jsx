@@ -354,7 +354,7 @@ export default function App() {
 
       {}
       <header className="sticky top-0 z-50 border-b border-stone-800 bg-stone-950/90 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="p-2 rounded border border-amber-500/50 bg-stone-900 text-amber-400 shadow-sm shadow-amber-500/20">
               <Shield className="w-5 h-5" />
@@ -406,23 +406,23 @@ export default function App() {
       </header>
 
       {}
-      <section className="relative z-10 border-b border-stone-800/80 py-14 lg:py-20 bg-gradient-to-b from-stone-900/50 to-stone-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 border-b border-stone-800/80 py-12 lg:py-16 bg-gradient-to-b from-stone-900/50 to-stone-950">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-7 xl:col-span-8 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-amber-500/30 bg-amber-950/30 text-amber-400 text-xs uppercase tracking-widest font-semibold">
                 <Radio className="w-3.5 h-3.5 animate-pulse text-amber-400" />
                 Estándar Global de Ciberdefensa
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-stone-100 leading-tight">
+              <h1 className="text-3xl sm:text-5xl xl:text-6xl font-black tracking-tight text-stone-100 leading-tight">
                 EL TRIÁNGULO DORADO DE LA{' '}
                 <span className="text-amber-400 underline decoration-amber-500/50 decoration-wavy decoration-2">
                   SEGURIDAD
                 </span>
               </h1>
 
-              <p className="font-sans text-stone-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+              <p className="font-sans text-stone-300 text-base sm:text-lg leading-relaxed max-w-4xl">
                 Cualquier vulnerabilidad, ataque o directiva en ciberseguridad se reduce a la protección de tres activos primordiales:{' '}
                 <strong className="text-amber-400 font-mono">Confidencialidad</strong> (solo ojos autorizados),{' '}
                 <strong className="text-lime-400 font-mono">Integridad</strong> (datos puros y sin alterar) y{' '}
@@ -446,7 +446,7 @@ export default function App() {
             </div>
 
             {/* Tactical Live Radar Card - Geometric Triangle HUD */}
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-5 xl:col-span-4">
               <div className="border border-stone-800 rounded-xl bg-stone-900/70 p-5 shadow-2xl relative overflow-hidden backdrop-blur-sm">
                 <div className="flex items-center justify-between border-b border-stone-800 pb-3 mb-2">
                   <div className="flex items-center gap-2">
@@ -629,7 +629,7 @@ export default function App() {
       </section>
 
       {}
-      <section id="pilares" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative">
+      <section id="pilares" className="py-14 w-full px-4 sm:px-8 lg:px-12 xl:px-16 z-10 relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-1">
@@ -789,7 +789,7 @@ export default function App() {
                   <ShieldAlert className="w-4 h-4" />
                   Vectores de Ataque Primarios
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                   {currentPillar.threats.map((threat, idx) => (
                     <div
                       key={idx}
@@ -814,13 +814,13 @@ export default function App() {
                   <CheckCircle2 className="w-4 h-4" />
                   Controles de Mitigación y Buenas Prácticas
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                   {currentPillar.controls.map((control, idx) => (
                     <div
                       key={idx}
                       className="p-4 rounded border border-stone-800 bg-stone-950/60 flex items-start gap-3 hover:border-lime-900/60 transition"
                     >
-                      <div className="p-1 rounded bg-lime-950/50 border border-lime-800/50 text-lime-400 text-xs font-mono">
+                      <div className="p-1 rounded bg-lime-950/50 border border-lime-800/50 text-lime-400 text-xs font-mono shrink-0">
                         {control.code}
                       </div>
                       <div>
@@ -872,9 +872,9 @@ export default function App() {
       </section>
 
       {}
-      <section id="simulador" className="py-16 border-y border-stone-800 bg-stone-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-8">
+      <section id="simulador" className="py-14 border-y border-stone-800 bg-stone-900/30">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
+          <div className="mb-8">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-orange-950/40 border border-orange-800/50 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-2">
               <Zap className="w-3.5 h-3.5" />
               Laboratorio de Respuesta ante Incidentes
@@ -889,7 +889,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Scenarios listing */}
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 xl:col-span-3 space-y-2">
               <div className="text-xs font-mono uppercase text-stone-400 mb-2 px-1">
                 Amenazas Detectadas en Red
               </div>
@@ -928,7 +928,7 @@ export default function App() {
             </div>
 
             {/* Tactical Console & Mitigation Panel */}
-            <div className="lg:col-span-8 border border-stone-800 rounded-xl bg-stone-950 p-6 flex flex-col justify-between">
+            <div className="lg:col-span-8 xl:col-span-9 border border-stone-800 rounded-xl bg-stone-950 p-6 flex flex-col justify-between">
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-800 pb-4 mb-6 gap-2">
                   <div>
@@ -954,10 +954,10 @@ export default function App() {
                 </div>
 
                 {/* Attack Damage Bars vs Mitigated Status */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                   {/* Confidencialidad Bar */}
-                  <div className="p-3 rounded border border-stone-800 bg-stone-900/50">
-                    <div className="flex justify-between text-xs mb-1">
+                  <div className="p-4 rounded border border-stone-800 bg-stone-900/50">
+                    <div className="flex justify-between text-xs mb-1.5">
                       <span className="text-amber-400 font-bold">[C] Confidencialidad</span>
                       <span className="text-stone-400 font-mono">
                         {Math.max(0, activeScenario.impacts.C - Math.round(currentMitigationScore * 0.8))}% Daño
@@ -974,8 +974,8 @@ export default function App() {
                   </div>
 
                   {/* Integridad Bar */}
-                  <div className="p-3 rounded border border-stone-800 bg-stone-900/50">
-                    <div className="flex justify-between text-xs mb-1">
+                  <div className="p-4 rounded border border-stone-800 bg-stone-900/50">
+                    <div className="flex justify-between text-xs mb-1.5">
                       <span className="text-lime-400 font-bold">[I] Integridad</span>
                       <span className="text-stone-400 font-mono">
                         {Math.max(0, activeScenario.impacts.I - Math.round(currentMitigationScore * 0.8))}% Daño
@@ -992,8 +992,8 @@ export default function App() {
                   </div>
 
                   {/* Disponibilidad Bar */}
-                  <div className="p-3 rounded border border-stone-800 bg-stone-900/50">
-                    <div className="flex justify-between text-xs mb-1">
+                  <div className="p-4 rounded border border-stone-800 bg-stone-900/50">
+                    <div className="flex justify-between text-xs mb-1.5">
                       <span className="text-orange-500 font-bold">[A] Disponibilidad</span>
                       <span className="text-stone-400 font-mono">
                         {Math.max(0, activeScenario.impacts.A - Math.round(currentMitigationScore * 0.8))}% Daño
@@ -1021,14 +1021,14 @@ export default function App() {
                     </span>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {activeScenario.mitigations.map((mit) => {
                       const isApplied = appliedMitigations.includes(mit.id);
                       return (
                         <button
                           key={mit.id}
                           onClick={() => toggleMitigation(mit.id)}
-                          className={`w-full text-left p-3 rounded border text-xs flex items-center justify-between transition ${
+                          className={`w-full text-left p-3.5 rounded border text-xs flex items-center justify-between transition ${
                             isApplied
                               ? 'bg-lime-950/30 border-lime-500/70 text-lime-200'
                               : 'bg-stone-900/80 border-stone-800 text-stone-300 hover:border-stone-700'
@@ -1036,7 +1036,7 @@ export default function App() {
                         >
                           <div className="flex items-center gap-2.5">
                             <div
-                              className={`w-4 h-4 rounded border flex items-center justify-center ${
+                              className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
                                 isApplied
                                   ? 'bg-lime-500 border-lime-400 text-stone-950'
                                   : 'border-stone-700 bg-stone-950'
@@ -1044,10 +1044,10 @@ export default function App() {
                             >
                               {isApplied && <Check className="w-3 h-3 stroke-[3]" />}
                             </div>
-                            <span>{mit.label}</span>
+                            <span className="leading-tight">{mit.label}</span>
                           </div>
-                          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-300">
-                            +{mit.efficiency}% Control
+                          <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-300 shrink-0 ml-2">
+                            +{mit.efficiency}%
                           </span>
                         </button>
                       );
@@ -1057,7 +1057,7 @@ export default function App() {
               </div>
 
               {/* Status conclusion footer */}
-              <div className="mt-6 pt-4 border-t border-stone-800 flex items-center justify-between text-xs">
+              <div className="mt-6 pt-4 border-t border-stone-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                 <span className="text-stone-400">
                   {currentMitigationScore >= 90
                     ? 'Incidente totalmente contenido. Servicios restablecidos con normalidad.'
@@ -1067,9 +1067,9 @@ export default function App() {
                 </span>
                 <button
                   onClick={() => setAppliedMitigations([])}
-                  className="px-2 py-1 rounded bg-stone-900 hover:bg-stone-800 text-stone-400 text-[11px] flex items-center gap-1 border border-stone-700"
+                  className="px-3 py-1.5 rounded bg-stone-900 hover:bg-stone-800 text-stone-300 text-[11px] flex items-center gap-1.5 border border-stone-700 transition"
                 >
-                  <RotateCcw className="w-3 h-3" /> Reiniciar Simulación
+                  <RotateCcw className="w-3.5 h-3.5" /> Reiniciar Simulación
                 </button>
               </div>
             </div>
@@ -1078,7 +1078,7 @@ export default function App() {
       </section>
 
       {}
-      <section id="telemetria" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="telemetria" className="py-14 w-full px-4 sm:px-8 lg:px-12 xl:px-16">
         <div className="mb-8">
           <div className="text-xs font-bold uppercase tracking-widest text-lime-400 mb-1">
             Panel de Conmutación
@@ -1087,11 +1087,11 @@ export default function App() {
             Telemetría de Seguridad Defensiva
           </h2>
           <p className="text-xs sm:text-sm text-stone-400 font-sans mt-1">
-            Activa o desactiva defensas institucionales y observa cómo se recalcula al instante la robustez de la Tríada CIA.
+            Activa o desactiva defensas institucionales y observa cómo se recalcula al instante la robustez de la Tríada CIA en el radar superior.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
           {/* Switch 1: MFA */}
           <div
             onClick={() => toggleDefense('mfaHardware')}
@@ -1102,9 +1102,9 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-amber-400 uppercase">[C] MFA FIDO2 Hardware</span>
+              <span className="text-xs font-bold text-amber-400 uppercase">[C] MFA Hardware</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.mfaHardware ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.mfaHardware ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.mfaHardware ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
@@ -1122,13 +1122,13 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-amber-400 uppercase">[C] Cifrado AES-256 en Reposo</span>
+              <span className="text-xs font-bold text-amber-400 uppercase">[C] Cifrado AES-256</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.aesEncryption ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.aesEncryption ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.aesEncryption ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
-              Almacenamiento cifrado en bases de datos y respaldos. Protege contra robo de soportes magnéticos.
+              Almacenamiento cifrado en reposo y respaldos contra robo físico o exfiltración masiva.
             </p>
           </div>
 
@@ -1142,13 +1142,13 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-lime-400 uppercase">[I] Hashes Criptográficos SHA-256</span>
+              <span className="text-xs font-bold text-lime-400 uppercase">[I] Hashes SHA-256</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.immutableHashes ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.immutableHashes ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.immutableHashes ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
-              Comprobación continua de integridad de archivos y transacciones en bases de datos distribuidas.
+              Comprobación continua de integridad de archivos y transacciones en bases de datos.
             </p>
           </div>
 
@@ -1162,13 +1162,13 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-lime-400 uppercase">[I] Bitácoras WORM Inmutables</span>
+              <span className="text-xs font-bold text-lime-400 uppercase">[I] Logs WORM</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.auditLogs ? 'bg-lime-400 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.auditLogs ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.auditLogs ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
-              Registro de escritura única imposible de adulterar por intrusos para asegurar trazabilidad pericial.
+              Registro de escritura única inmutable por intrusos para asegurar trazabilidad pericial.
             </p>
           </div>
 
@@ -1182,13 +1182,13 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-orange-500 uppercase">[A] Clúster Multi-Región HA</span>
+              <span className="text-xs font-bold text-orange-500 uppercase">[A] Clúster HA</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.haCluster ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.haCluster ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.haCluster ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
-              Conmutación por error en menos de 5 segundos si cae un centro de datos entero.
+              Conmutación automática de servidores en menos de 5s ante fallas de centros de datos.
             </p>
           </div>
 
@@ -1202,21 +1202,21 @@ export default function App() {
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-orange-500 uppercase">[A] Centro de Filtrado Anti-DDoS</span>
+              <span className="text-xs font-bold text-orange-500 uppercase">[A] Filtro Anti-DDoS</span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${defenseToggles.ddosScrubbing ? 'bg-orange-500 text-stone-950 font-bold' : 'bg-stone-800 text-stone-400'}`}>
-                {defenseToggles.ddosScrubbing ? 'ACTIVO' : 'APAGADO'}
+                {defenseToggles.ddosScrubbing ? 'ACTIVO' : 'OFF'}
               </span>
             </div>
             <p className="text-xs text-stone-400 font-sans">
-              Inspección en el borde de tráfico masivo para absorber picos anómalos de peticiones maliciosas.
+              Inspección en el borde de tráfico Anycast masivo para absorber avalanchas de botnets.
             </p>
           </div>
         </div>
       </section>
 
-      {/* EVALUATION SECTION (STEP-BY-STEP QUIZ) */}
-      <section id="evaluacion" className="py-16 border-t border-stone-800 bg-stone-900/20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      {}
+      <section id="evaluacion" className="py-14 border-t border-stone-800 bg-stone-900/20">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-stone-900 border border-stone-800 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
               <CheckCircle2 className="w-3.5 h-3.5" />
@@ -1232,12 +1232,12 @@ export default function App() {
 
           {!isQuizCompleted ? (
             /* ACTIVE QUESTION VIEW */
-            <div className="border border-stone-800 rounded-2xl bg-stone-950/90 backdrop-blur-sm p-6 sm:p-8 shadow-xl space-y-6">
+            <div className="w-full max-w-5xl mx-auto border border-stone-800 rounded-2xl bg-stone-950/90 backdrop-blur-sm p-6 sm:p-10 shadow-xl space-y-6">
               {/* Stepper Progress Header */}
               <div className="space-y-2 border-b border-stone-800 pb-4">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold">
+                    <span className="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold">
                       Pregunta {currentQuestionIndex + 1} de {QUIZ_BANK.length}
                     </span>
                     <span className="text-stone-500 hidden sm:inline">• Simulación en vivo</span>
@@ -1260,13 +1260,13 @@ export default function App() {
 
               {/* Question Statement */}
               <div className="space-y-2">
-                <h3 className="text-base sm:text-lg font-bold text-stone-100 leading-snug">
+                <h3 className="text-base sm:text-xl font-bold text-stone-100 leading-snug">
                   {QUIZ_BANK[currentQuestionIndex].question}
                 </h3>
               </div>
 
               {/* Options List */}
-              <div className="space-y-3 font-sans">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-sans">
                 {QUIZ_BANK[currentQuestionIndex].options.map((opt, optIdx) => {
                   const isAnswered = quizAnswers[currentQuestionIndex] !== undefined;
                   const isChosen = quizAnswers[currentQuestionIndex] === optIdx;
@@ -1374,7 +1374,7 @@ export default function App() {
             </div>
           ) : (
             /* FINAL SCORECARD / DEBRIEF CARD */
-            <div className="border border-stone-800 rounded-2xl bg-stone-950/95 backdrop-blur-sm p-6 sm:p-8 shadow-2xl space-y-6 text-center">
+            <div className="w-full max-w-4xl mx-auto border border-stone-800 rounded-2xl bg-stone-950/95 backdrop-blur-sm p-6 sm:p-10 shadow-2xl space-y-6 text-center">
               <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center border border-amber-500/50 bg-amber-500/10 text-amber-400">
                 <Shield className="w-8 h-8" />
               </div>
@@ -1389,7 +1389,7 @@ export default function App() {
               </div>
 
               {/* Score Indicator */}
-              <div className="p-6 rounded-xl border border-stone-800 bg-stone-900/60 max-w-sm mx-auto space-y-2">
+              <div className="p-6 rounded-xl border border-stone-800 bg-stone-900/60 max-w-md mx-auto space-y-2">
                 <div className="text-4xl font-black font-mono text-amber-400">
                   {quizScore} / {QUIZ_BANK.length}
                 </div>
@@ -1415,23 +1415,23 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Compact Review of Questions */}
-              <div className="space-y-2 text-left max-w-lg mx-auto font-sans">
+              {/* Review of Questions */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-left max-w-2xl mx-auto font-sans">
                 {QUIZ_BANK.map((q, idx) => {
                   const wasCorrect = quizAnswers[idx] === q.correct;
                   return (
                     <div
                       key={idx}
-                      className="p-3 rounded-lg border border-stone-800/80 bg-stone-900/40 flex items-center justify-between text-xs"
+                      className="p-3.5 rounded-lg border border-stone-800/80 bg-stone-900/40 flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-stone-500 font-bold">0{idx + 1}.</span>
-                        <span className="text-stone-300 truncate max-w-[240px] sm:max-w-xs">
+                        <span className="text-stone-300 truncate max-w-[200px] sm:max-w-xs">
                           {q.question}
                         </span>
                       </div>
                       <span
-                        className={`font-mono text-[10px] px-2 py-0.5 rounded font-bold ${
+                        className={`font-mono text-[10px] px-2 py-0.5 rounded font-bold shrink-0 ml-2 ${
                           wasCorrect
                             ? 'bg-lime-950/80 text-lime-400 border border-lime-800'
                             : 'bg-rose-950/80 text-rose-400 border border-rose-800'
@@ -1457,9 +1457,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {}
       <footer className="border-t border-stone-800/80 py-8 bg-stone-950 text-xs text-stone-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-amber-500" />
             <span className="font-mono text-stone-400">
